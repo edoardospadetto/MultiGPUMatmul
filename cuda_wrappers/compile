@@ -1,0 +1,2 @@
+gcc -DCUBLAS_GFORTRAN -c -I /etc/alternatives/cuda/include -I/etc/alternatives/cuda/src cuda.c -o cuda.o
+
