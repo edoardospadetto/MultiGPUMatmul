@@ -1,0 +1,35 @@
+CC=gcc 
+FORTRAN=gfortran
+
+CFLAGS=-DCUBLAS_GFORTRAN -O2 -c 
+FFLAGS=-DCUBLAS_GFORTRAN -O2 -c -cpp
+LFLAGS=-DCUBLAS_GFORTRAN -shared -fopenmp
+
+ICUDA= -I/cineca/prod/opt/compilers/cuda/10.1/none/update2/include
+LIBSBLAS = -L /cineca/prod/opt/libraries/lapack/3.9.0/gnu--8.4.0/lib -L /cineca/prod/opt/libraries/blas/3.8.0/gnu--8.4.0/lib  -llapack -lblas 
+LIBSCUDA = -L/cineca/prod/opt/compilers/cuda/10.1/none/update2/lib64  -lcublas -lculibos -lcudart
+LIBSWRAP = -lrt -ldl 
+
+BUILD=./build/
+BIN=./bin/
+
+test: cuda_wrapp.o fortran.o test.o 
+	$(FORTRAN) $(LFLAGS) $(BUILD)test.o  $(BUILD)cuda_wrapp.o $(BUILD)fortran.o  $(LIBBLAS) $(LIBCUDA) $(LIBWRAP) -o $(BIN)test 
+test.o: 
+	$(FORTRAN) $(FFLAGS)  $(LIBSCOMP)  multigpumatmul.F90  -o $(BUILD)test.o
+	rm *.mod
+
+fortran.o: 
+	 $(CC) $(CFLAGS) $(ICUDA)  ./src/fortran.c -o $(BUILD)fortran.o
+
+cuda_wrapp.o: 
+	 $(CC) $(CFLAGS) $(ICUDA)  ./cuda_wrappers/cuda.cpp -o $(BUILD)cuda_wrapp.o
+
+
+clean: 
+	rm ./build/*
+	
+	
+
+	
+

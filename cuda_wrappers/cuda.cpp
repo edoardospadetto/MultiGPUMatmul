@@ -1,3 +1,10 @@
+#define MY_TEST             	my_test_
+#define CUDA_GET_DEVICE_COUNT   cuda_get_device_count_
+#define CUDA_GET_DEVICE         cuda_get_device_
+#define CUDA_SET_DEVICE         cuda_set_device_
+#define CUDA_MEM_GET_INFO	cuda_mem_get_info_
+
+
 #include <ctype.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -7,16 +14,9 @@
 #    include <stdint.h>
 #endif                    /* __GNUC__ */
 #include "cuda_runtime.h" /* CUDA public header file     */
-#include "cusparse_fortran_common.h"
-#include "cusparse.h" /* CUSPARSE public header file */
-#include "cusparse_fortran.h"
-
-#define MY_TEST             	my_test_
-#define CUDA_GET_DEVICE_COUNT   cuda_get_device_count_
-#define CUDA_GET_DEVICE         cuda_get_device_
-#define CUDA_SET_DEVICE         cuda_set_device_
-#define CUDA_MEM_GET_INFO	cuda_mem_get_info_
 #include "cuda.h"
+
+
 
 
 /*---------------------------------------------------------------------------*/

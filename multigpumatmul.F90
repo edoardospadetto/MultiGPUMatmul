@@ -1,6 +1,6 @@
 
 !****************************************
-#define GPUCMPLX
+#define GPUZMPLX
 !***************************************
 !Include Modules
 
@@ -21,6 +21,13 @@
 #define CUBLAS_TEMPLATE_GEMM  CUBLAS_CGEMM
 #define CTYPE1 cmplx(1.0,0.0)
 #define CTYPE0 cmplx(0.0,0.0)
+#endif
+
+#ifdef GPUZMPLX
+#define CTYPE double complex
+#define CUBLAS_TEMPLATE_GEMM  CUBLAS_ZGEMM
+#define CTYPE1 dcmplx(1.0,0.0)
+#define CTYPE0 dcmplx(0.0,0.0)
 #endif
 
 !***********************************************
@@ -55,7 +62,6 @@ module parallel
 		sizes_tmp = sizes
 		gpuload = bytes*(sizes_tmp(1)*sizes_tmp(2)+sizes_tmp(2)*sizes_tmp(3)+sizes_tmp(1)*sizes_tmp(3))
 		
-		!print*, gpuload, free_mem
 		
 		!Dummy algorithm can be improved
 		
@@ -78,8 +84,6 @@ module parallel
 			end if
 		end do 
 		
-		!print*, gpuload, free_mem
-		!print*, fractions
 		sizes=sizes_tmp
 		
 		
@@ -378,21 +382,22 @@ program mutml
 	use parallel
 	use matrixqic
 	use debugqic
-	CTYPE :: A(5,6), B(6,4), C(5,4)
+	CTYPE :: A(30,40), B(40,30), C(30,30)
 	integer, dimension(2):: grid = (/2,2/) 
-	A=rgcm(5,6)
-	B=rgcm(6,4)
+	write(*,*)"-----"
+	A=rgzm(30,40)*675
+	B=rgzm(40,30)*132
 	write(*,*)"-----"
 	!print input matrix A
-	call pcm(A)
+	!call pcm(A)
 	write(*,*)"-----"
-	call pcm(b)
+	!call pcm(b)
 	
 	call pmatmul(A, B, C,1 )
 	write(*,*)"----- Fortran Matmul ---"
-	call pcm(matmul(A,B))
+	!call pcm(matmul(A,B))
 	write(*,*)"----- My result ------"
-	call pcm(C)
+	!call pcm(C)
 	write(*,*)"----- CHECK -----"
 	write(*,*)"sum(Matmul(A,B), custommatmul(A,B,gpu,etc..)) =" ,sum(matmul(A,B)-C)
 	

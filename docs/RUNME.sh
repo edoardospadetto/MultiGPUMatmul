@@ -1,5 +1,7 @@
 #!/bin/bash
 echo "1) Compile Cuda Wrappers"
+gcc -DCUBLAS_GFORTRAN -c -I /etc/alternatives/cuda/include -I/etc/alternatives/cuda/src ./src/fortran.c -o fortran.o
+
 gcc -DCUBLAS_GFORTRAN -c -I /etc/alternatives/cuda/include -I/etc/alternatives/cuda/src cuda_wrappers/cuda.cpp -o cuda.o
 echo "			DONE !"
 echo
@@ -13,5 +15,4 @@ echo "			DONE !"
 echo 
 echo "RUNNING.."
 ./test
-
 

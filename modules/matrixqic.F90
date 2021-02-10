@@ -38,9 +38,7 @@ module matrixqic
     DOUBLE COMPLEX, DIMENSION(sizea,sizeb) :: gen
     call RANDOM_NUMBER(a)
     call RANDOM_NUMBER(b)
-    gen%re = a
-    gen%re = b
-
+    gen = dcmplx(a,b)
     !do ii= 1, sizea
     !    do jj = 1, sizeb
     !        call RANDOM_NUMBER(a)
@@ -61,8 +59,7 @@ END FUNCTION rgzm
     COMPLEX, DIMENSION(sizea,sizeb) :: gen
     call RANDOM_NUMBER(a)
     call RANDOM_NUMBER(b)
-    gen%re = a
-    gen%im= b
+    gen = dcmplx(a,b)
 
     !do ii= 1, sizea
     !    do jj = 1, sizeb
