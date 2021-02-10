@@ -25,7 +25,6 @@ fortran.o:
 cuda_wrapp.o: 
 	 $(CC) $(CFLAGS) $(ICUDA)  ./cuda_wrappers/cuda.cpp -o $(BUILD)cuda_wrapp.o
 
-
 clean: 
 	rm ./build/*
 	
